@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diálogos Clínicos — SmashCode</title>
+  <link rel="stylesheet" href="<?= PROYECTO_PATH ?>/assets/css/estilos.css?v=<?= time() ?>">
+  <link rel="stylesheet" href="<?= PROYECTO_PATH ?>/assets/css/layout.css?v=<?= time() ?>">
+  <link rel="stylesheet" href="<?= PROYECTO_PATH ?>/assets/css/aprendiz.css?v=<?= time() ?>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script>
+    (function(){var t=localStorage.getItem('smashcode_tema');if(t)document.documentElement.setAttribute('data-theme',t);})();
+  </script>
+</head>
+<body>
+<div class="contenedor-app">
+  <?php include dirname(__DIR__) . '/layouts/aprendiz_sidebar.php'; ?>
+
+  <main class="contenido-principal">
+    <div class="module-view">
+        <div class="module-header">
+            <i class="fas fa-comments header-icon"></i>
+            <div>
+                <h1>Diálogos Clínicos</h1>
+                <p>Escucha y practica conversaciones del entorno médico real con voces nativas.</p>
+            </div>
+        </div>
+
+        <?php if (empty($dialogos)): ?>
+          <div class="vacio-container">
+            <i class="fas fa-comments vacio-icono"></i>
+            <h3>No hay diálogos disponibles aún</h3>
+            <p class="vacio-texto">Completa lecciones para habilitar prácticas de conversación.</p>
+          </div>
+        <?php else: ?>
+          <?php foreach ($dialogos as $d): ?>
+            <div class="dialogue-card">
+              <div class="dialogue-header-flex">
+                <div>
+                  <h3 class="dialogue-title-main"><i class="fas fa-notes-medical"></i><?= htmlspecialchars($d['titulo']) ?></h3>
+                  <small class="dialogue-subtitle"><?= htmlspecialchars($d['nivel_nombre']) ?> • <?= htmlspecialchars($d['participantes']) ?></small>
+                </div>
+                <button class="btn-azul btn-dialogue-play" onclick="playFullDialogue('dialogue-<?= $d['id'] ?>')">
+                  <i class="fas fa-play"></i> Reproducir Diálogo
+                </button>
+              </div>
+              
+              <div class="dialogue-chat" id="dialogue-<?= $d['id'] ?>">
+                <?php foreach ($d['turnos'] as $t): ?>
+                  <?php 
+                    $isNurse = strpos(strtolower($t['hablante']), 'nurse') !== false || strpos(strtolower($t['hablante']), 'enfermer') !== false;
+                  ?>
+                  <div class="chat-bubble <?= $isNurse ? 'right' : 'left' ?>" 
+                       id="turno-<?= $t['id'] ?>" 
+                       data-text-en="<?= htmlspecialchars($t['texto_en']) ?>"
+                       data-speaker="<?= $isNurse ? 'female' : 'male' ?>">
+                    <div class="chat-sender"><?= htmlspecialchars($t['hablante']) ?></div>
+                    <div class="chat-text-en"><?= htmlspecialchars($t['texto_en']) ?></div>
+                    <div class="chat-text-es"><?= htmlspecialchars($t['texto_es']) ?></div>
+                    <button class="chat-bubble-play" onclick="speakSingleTurn('turno-<?= $t['id'] ?>')">
+                      <i class="fas fa-volume-up"></i>
+                    </button>
+                  </div>
+                <?php endforeach; ?>
+              </div>
+            </div>
+          <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+  </main>
+</div>
+
+<script>
+  let dialogTimeoutList = [];
+
+  function speakText(text, gender = 'female') {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      let utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.9;
+      
+      let voices = window.speechSynthesis.getVoices();
+      let enVoices = voices.filter(v => v.lang.startsWith('en'));
+      
+      if (enVoices.length > 0) {
+        if (gender === 'female') {
+          let fVoice = enVoices.find(v => v.name.toLowerCase().includes('zira') || v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('google'));
+          utterance.voice = fVoice || enVoices[0];
+        } else {
+          let mVoice = enVoices.find(v => v.name.toLowerCase().includes('david') || v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('microsoft'));
+          utterance.voice = mVoice || enVoices[0];
+        }
+      }
+      window.speechSynthesis.speak(utterance);
+      return utterance;
+    }
+  }
+
+  function playFullDialogue(diaElementId) {
+    window.speechSynthesis.cancel();
+    dialogTimeoutList.forEach(t => clearTimeout(t));
+    dialogTimeoutList = [];
+    
+    let container = document.getElementById(diaElementId);
+    let bubbles = Array.from(container.querySelectorAll('.chat-bubble'));
+    
+    bubbles.forEach(b => b.classList.remove('active-highlight'));
+
+    function playTurn(idx) {
+      if (idx >= bubbles.length) return;
+      let bubble = bubbles[idx];
+      let text = bubble.getAttribute('data-text-en');
+      let speaker = bubble.getAttribute('data-speaker') || 'female';
+
+      bubble.classList.add('active-highlight');
+      bubble.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      let utterance = speakText(text, speaker);
+      
+      utterance.onend = () => {
+        bubble.classList.remove('active-highlight');
+        let timeout = setTimeout(() => {
+          playTurn(idx + 1);
+        }, 500);
+        dialogTimeoutList.push(timeout);
+      };
+    }
+    
+    playTurn(0);
+  }
+
+  function speakSingleTurn(turnId) {
+    window.speechSynthesis.cancel();
+    dialogTimeoutList.forEach(t => clearTimeout(t));
+    dialogTimeoutList = [];
+
+    document.querySelectorAll('.chat-bubble').forEach(b => b.classList.remove('active-highlight'));
+
+    let bubble = document.getElementById(turnId);
+    let text = bubble.getAttribute('data-text-en');
+    let speaker = bubble.getAttribute('data-speaker') || 'female';
+
+    bubble.classList.add('active-highlight');
+    let utterance = speakText(text, speaker);
+    utterance.onend = () => {
+      bubble.classList.remove('active-highlight');
+    };
+  }
+</script>
+<script src="<?= PROYECTO_PATH ?>/assets/js/tema.js"></script>
+</body>
+</html>

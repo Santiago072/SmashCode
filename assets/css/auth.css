@@ -1,0 +1,131 @@
+/* ==========================================================================
+   AUTH STYLES (Login, Register, Password Recovery)
+   ========================================================================== */
+
+/* Tema flotante en páginas de auth */
+.btn-tema-flotante {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  z-index: 9999;
+}
+
+/* Panel Izquierdo Decorativo */
+.mascota-auth {
+  font-size: 0;
+  margin-bottom: 12px;
+}
+
+/* Panel Derecho */
+.panel-auth-der-relativo {
+  position: relative;
+}
+
+/* Enlace volver al inicio */
+.enlace-volver-inicio {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  color: var(--gris-medio);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.enlace-volver-inicio:hover {
+  color: var(--verde-acento);
+}
+
+.enlace-volver-inicio i {
+  margin-right: 4px;
+}
+
+/* Formularios */
+.titulo-formulario-auth {
+  margin-top: 10px;
+}
+
+.auth-form-hidden {
+  display: none;
+}
+
+.auth-form-visible {
+  display: block;
+}
+
+/* Inputs y contraseñas */
+.contenedor-input-relativo {
+  position: relative;
+}
+
+.campo-input-password {
+  padding-right: 40px;
+}
+
+.toggle-password-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gris-medio);
+  cursor: pointer;
+  font-size: 0.9rem;
+  z-index: 10;
+  transition: color 0.2s;
+}
+
+.toggle-password-icon:hover {
+  color: var(--verde-acento);
+}
+
+.campo-input-select {
+  padding-left: 38px;
+}
+
+/* Utilidades */
+.auth-link-derecha {
+  text-align: right;
+  margin-bottom: 16px;
+}
+
+.auth-link-recuperar {
+  font-size: 0.8rem;
+  color: var(--azul);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.auth-link-recuperar:hover {
+  text-decoration: underline;
+}
+
+.auth-terminos-texto {
+  font-size: 0.72rem;
+  color: var(--gris-medio);
+  text-align: center;
+  margin-top: 14px;
+}
+
+.auth-terminos-link {
+  color: var(--azul);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.auth-terminos-link:hover {
+  text-decoration: underline;
+}
+
+/* Utilidades adicionales */
+.auth-container-narrow { max-width: 500px; }
+.auth-panel-rounded { border-radius: var(--radio); }
+.text-center { text-align: center; }
+.mt-20 { margin-top: 20px; }
+.mt-10 { margin-top: 10px; }
+
+/* Utilidades para cambiar clave */
+.auth-panel-padded { padding: 40px 36px; }
+.auth-title-large { font-size: 1.4rem; font-weight: 900; color: var(--texto-principal); margin-bottom: 6px; }
+.auth-desc-text { font-size: 0.85rem; color: var(--gris-medio); margin-bottom: 24px; line-height: 1.6; }
+.auth-req-list { font-size: 0.78rem; color: var(--gris-medio); margin-bottom: 20px; padding-left: 18px; }

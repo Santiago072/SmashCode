@@ -1,0 +1,33 @@
+/* ==========================================================================
+   LAYOUT STYLES (Sidebars, Navbars, Headers)
+   ========================================================================== */
+
+/* Logo y Texto del Rol */
+.svg-block { display: block; }
+.logo-rol-texto {
+  font-size: 0.62rem;
+  color: #52656D;
+  letter-spacing: 1.5px;
+  font-weight: 800;
+  padding-left: 2px;
+  margin-top: 2px;
+}
+
+/* Enlaces Especiales */
+.nav-enlace-salir {
+  color: var(--rojo) !important;
+}
+
+/* Footer de Barra Lateral */
+.sidebar-footer {
+  padding: 16px 14px;
+  border-top: 2px solid var(--borde-sutil);
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-tema-sidebar {
+  width: 100%;
+  justify-content: center;
+}
