@@ -8,9 +8,7 @@ services:
     container_name: smashcode_web
     restart: unless-stopped
     ports:
-      - "80:80"
-    volumes:
-      - .:/var/www/html
+      - "8080:80"
     environment:
       # Las variables se cargarán automáticamente desde el archivo .env gracias al paquete phpdotenv
       - MYSQL_HOST=db

@@ -39,6 +39,7 @@ function obtenerConexion(): PDO {
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,  // Lanza excepciones ante errores SQL
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,         // Resultados como arrays asociativos
             PDO::ATTR_EMULATE_PREPARES   => false,                    // Consultas preparadas reales
+            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci', // Forzar codificación UTF-8
         ];
 
         try {

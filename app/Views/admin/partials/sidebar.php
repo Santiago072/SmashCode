@@ -75,8 +75,8 @@
       </a>
     </li>
     <li>
-      <a href="<?= PROYECTO_PATH ?>/admin/vocabulario" class="nav-enlace">
-        <i class="fas fa-spell-check nav-icono"></i><span>Vocabulario</span>
+      <a href="<?= PROYECTO_PATH ?>/admin/catalogos" class="nav-enlace <?= strpos($_SERVER['REQUEST_URI'] ?? '', '/admin/catalogos') !== false ? 'activo' : '' ?>">
+        <i class="fas fa-tags nav-icono"></i><span>Catálogos</span>
       </a>
     </li>
     <li>

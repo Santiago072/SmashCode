@@ -65,6 +65,20 @@ $app->get('/admin/raps',                 'AdminController@raps');
 $app->post('/admin/raps/toggle',         'AdminController@toggleRap');
 $app->get('/instructor/raps',            'InstructorController@raps');
 
+// --- Gestión de Catálogos (HU18) ---
+$app->get('/admin/catalogos',            'CatalogosController@index');
+$app->post('/admin/catalogos/guardar',   'CatalogosController@guardar');
+$app->post('/admin/catalogos/toggle',    'CatalogosController@toggle');
+
+// --- Gestión de Vocabulario (HU19) ---
+$app->get('/admin/vocabulario',          'VocabularioController@index');
+$app->get('/admin/vocabulario/crear',    'VocabularioController@crear');
+$app->post('/admin/vocabulario/guardar', 'VocabularioController@guardar');
+$app->get('/admin/vocabulario/editar',   'VocabularioController@editar');
+$app->post('/admin/vocabulario/actualizar', 'VocabularioController@actualizar');
+$app->post('/admin/vocabulario/toggle',  'VocabularioController@toggle');
+$app->post('/admin/vocabulario/sugerir', 'VocabularioController@sugerir');
+
 // --- Módulo de Niveles (HU10) — Instructor ---
 $app->get('/instructor/niveles',             'InstructorController@niveles');
 $app->get('/instructor/niveles/editar',      'InstructorController@editarNivel');

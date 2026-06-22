@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS programa_formacion (
 CREATE TABLE IF NOT EXISTS categoria_vocabulario (
     id     VARCHAR(36)  NOT NULL DEFAULT (UUID()),
     nombre VARCHAR(255) NOT NULL,
+    activo TINYINT(1)   NOT NULL DEFAULT 1,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -36,6 +37,7 @@ CREATE TABLE IF NOT EXISTS categoria_vocabulario (
 CREATE TABLE IF NOT EXISTS area_clinica (
     id     VARCHAR(36)  NOT NULL DEFAULT (UUID()),
     nombre VARCHAR(255) NOT NULL,
+    activo TINYINT(1)   NOT NULL DEFAULT 1,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

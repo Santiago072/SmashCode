@@ -9,8 +9,17 @@ RUN docker-php-ext-install pdo pdo_mysql
 # Copiar la configuración del VirtualHost (si decides usar subdominios o configuraciones especiales)
 COPY vhost.conf /etc/apache2/sites-available/000-default.conf
 
+# Instalar herramientas del sistema necesarias para Composer
+RUN apt-get update && apt-get install -y git unzip zip
+
+# Instalar Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
 # Copiar el código fuente
 COPY . /var/www/html/
+
+# Instalar las dependencias de PHP (crea la carpeta vendor dentro del contenedor)
+RUN composer install --no-dev --optimize-autoloader
 
 # Ajustar permisos
 RUN chown -R www-data:www-data /var/www/html

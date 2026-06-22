@@ -1,7 +1,6 @@
 # SmashCode .gitignore
 
 # Ignorar archivos de configuración sensibles
-/config/credenciales.php
 .env
 
 # Ignorar dependencias de Composer (es buena práctica que cada entorno corra composer install)
